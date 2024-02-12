@@ -1,5 +1,6 @@
 #include "../inc/Receiver.h"
 #include <iostream>
+#include <fstream>
 
 Receiver::Receiver( unsigned long long p, unsigned long long q )
 {
@@ -8,11 +9,6 @@ Receiver::Receiver( unsigned long long p, unsigned long long q )
   _q = q;
 
   _calculator = new Calculator();
-
-  // debug
-  std::cout << "Receiver Constractor" << std::endl;
-  std::cout << "_p = " << _p << std::endl;
-  std::cout << "_q = " << _q << std::endl;
 }
 
 Receiver::~Receiver()
@@ -55,14 +51,29 @@ void Receiver::keyGenerate( unsigned long long* n, unsigned long long* k1 )
   *n  = _publicKey_n;
   *k1 = _publicKey_k1;
 
-  // debug
-  std::cout << "----- Key Generate -----" << std::endl;
-  std::cout << "_publicKey_n  = " << _publicKey_n << std::endl;
-  std::cout << "_publicKey_k1 = " << _publicKey_k1 << std::endl;
-  std::cout << "_secretKey    = " << _secretKey << std::endl;
 }
 
 unsigned long long Receiver::decodeChar( unsigned long long encryptedChar )
 {
   return _calculator->powmod( encryptedChar, _secretKey, _publicKey_n );
+}
+
+void Receiver::outputKeys()
+{
+  std::ofstream outputFile( "Keys.txt" );
+
+  // ファイルが正しく開かれているかを確認
+  if (outputFile.is_open()) {
+    // データをファイルに書き込む
+    outputFile << "(p, q) = (" << _p << ", " << _q << ")" << std::endl;
+    outputFile << "公開鍵n = " << _publicKey_n << std::endl;
+    outputFile << "公開鍵k1 = " << _publicKey_k1 << std::endl;
+    outputFile << "秘密鍵k2 = " << _secretKey << std::endl;
+
+    // ファイルを閉じる
+    outputFile.close();
+  } else {
+    std::cerr << "ファイルを開けませんでした。" << std::endl;
+  }
+
 }

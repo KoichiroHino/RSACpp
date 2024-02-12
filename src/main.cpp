@@ -53,6 +53,9 @@ int main()
   asciiConverter.convertAsciiToFile( decodedCodes, "decoded.txt");
   asciiConverter.outputAsciiToFile( decodedCodes, "decoded(ASCII).txt" );
 
+  // 公開鍵と秘密鍵のテキスト出力
+  receiver->outputKeys();
+
   delete receiver;
   delete messenger;
 

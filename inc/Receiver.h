@@ -41,4 +41,6 @@ class Receiver
      * @return 復号化されたアスキーコード文字
      */
     unsigned long long decodeChar( unsigned long long encryptedChar );
+
+    void outputKeys( void );
 };
