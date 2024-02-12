@@ -26,9 +26,7 @@ void Receiver::keyGenerate( unsigned long long* n, unsigned long long* k1 )
   _publicKey_n = _p * _q;
 
   // 公開鍵k1の生成
-  // unsigned long long m = _calculator->lcm( _p-1, _q-1 );
   unsigned long long m = (_p-1) * (_q-1);
-  std::cout << "m = " << m << std::endl;  //debug
   // mと互いに素かつ、1 < hoge < mを満たす整数を探す
   unsigned long long hoge = 2;
   while( true )
@@ -46,9 +44,6 @@ void Receiver::keyGenerate( unsigned long long* n, unsigned long long* k1 )
   unsigned long long fuga = 1;
   while( true ){
     if( (_publicKey_k1 * fuga) % m == 1 ){
-      std::cout << fuga << std::endl;
-      std::cout << (_publicKey_k1 * fuga) << std::endl;
-      std::cout << (_publicKey_k1 * fuga) % m << std::endl;
       break;
     }
     
