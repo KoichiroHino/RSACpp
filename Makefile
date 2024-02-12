@@ -4,6 +4,10 @@ CXXFLAGS = -MMD -MP -Wall
 SRCDIR = ./src
 OBJDIR = ./obj
 INCDIR = -I./inc
+# 現在の日付と時刻を取得する（yyyymmddss形式）
+DATE := $(shell date +"%Y%m%d%H%M%S")
+# 出力ディレクトリの名前
+OUTPUT_DIR := result_$(DATE)
 
 SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
 OBJFILES = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCFILES))
@@ -33,12 +37,16 @@ init:
 	mkdir -p obj
 	mkdir -p src
 	touch inc/.gitkeep
-	touch obj/.gitkeep
 	touch src/.gitkeep
 	git add .gitignore
 	git add Makefile
 	git add inc/.gitkeep
-	git add obj/.gitkeep
 	git add src/.gitkeep
 	git add README.md
 	git commit -m "commit for .gitignore, Makefile, README and some directories"
+
+.PHONY: exe
+exe:
+	mkdir -p $(OUTPUT_DIR)
+	./system
+	cp *.txt ./$(OUTPUT_DIR)
